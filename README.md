@@ -22,12 +22,18 @@ Made for vibe coders, beginners and anyone joining an unfamiliar codebase.
 ## ✨ What it does
 
 - 🔍 **Finds your whole stack.** It reads manifests (`package.json`, `pyproject.toml`, `go.mod`, `Cargo.toml`…), Docker and CI files and database configs, then **greps the imports** to confirm what is actually used.
-- 🧠 **Explains every technology with a card:**
-  - **What it is**, in one sentence
-  - **An analogy** ("Redis is a sticky note on the fridge")
-  - **Why it's here**, with real file and line references
-  - **Alternatives** and the trade-off that explains this choice
-  - **What would break without it**
+- 🧠 **Explains every technology in detail:**
+  - **What it is**, in one sentence, and **an analogy** ("Redis is a sticky note on the fridge")
+  - **Why it's here**, quoting your README/docs when they say why
+  - **How it works in your code**: step by step, with real file and line references
+  - **Key config**: the lines that set it up, and what each setting means
+  - **Version notes** when the major version matters (e.g. Express 4 vs 5)
+  - **Alternatives** and the trade-off, **what would break without it**, gotchas in your code, which file to open first, and the official docs
+- 🗺️ **Understand the whole project, not just the packages:**
+  - a **project map** (what each folder is for) and **how to run it** (commands, ports, what starts first)
+  - **a request's journey**: one real action traced from the click to the database and back, file by file
+  - the **data model** (tables and relations) and the **configuration** (env variable names and what they control, never values)
+  - a **glossary** of every technical term used
 - 🗺️ **Draws how the pieces connect**: an ASCII diagram in chat and a Mermaid diagram in the file.
 - 🕵️ **Honest findings**: unused packages, duplicate libraries, services set up but never called, missing tests. It reports them and **never changes anything**.
 - ❓ **A 3-question quiz** about *your* project, to check that it clicked. You can skip it.
@@ -64,7 +70,8 @@ Open Claude Code in your project folder and run:
 
 | Command | What you get |
 |---|---|
-| `/explain-stack` | The whole stack explained, findings, quiz, `STACK.md` |
+| `/explain-stack` | The whole project explained in detail: map, how to run it, every technology, a traced request, data model, configuration, findings, glossary, quiz, `STACK.md` |
+| `/explain-stack quick` | A short overview (the old, compact cards) |
 | `/explain-stack redis` | A deep dive on one technology |
 | `/explain-stack code` | The most important code and algorithms, line by line |
 | `/explain-stack code src/auth.ts` | One file or function, line by line |

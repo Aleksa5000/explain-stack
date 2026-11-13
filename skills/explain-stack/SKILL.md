@@ -1,7 +1,7 @@
 ---
 name: explain-stack
-description: Explain WHY a project uses each of its technologies, for beginners and vibe coders. Scans the project in the current folder, finds every framework, library, database and tool, and for each one explains what it is (with a real-life analogy), why it is used here (pointing to the actual files), what the alternatives are, and what would break without it. Draws how the pieces connect, asks a short comprehension quiz, and saves STACK.md. Pass a technology name (e.g. "/explain-stack redis") for a deep dive on one item. Use when the user asks "why does this project use X", "explain my stack", "what is all this in package.json", "objasni mi tehnologije", "zašto koristimo X", or wants to understand a codebase they built with AI. Pass "code" (e.g. "/explain-stack code" or "/explain-stack code src/scheduler.py") to walk through the most important code and algorithms line by line, with example runs and complexity. Pass "changes" (e.g. "/explain-stack changes") to explain what just changed in the code (uncommitted changes or the last commits, e.g. after an AI agent edited files): what changed and why, grouped by feature, with risks, leftovers and how to test it. Also use when the user asks "what did the AI just change", "objasni mi izmene", "šta je promenjeno", "explain this code", "how does this algorithm work", "objasni mi kod", "objasni mi ovu funkciju" or "šta radi ova linija".
-argument-hint: "[technology | code [path] | changes [commit|N|branch]]"
+description: Explain in detail WHY a project uses each technology, for beginners and vibe coders. Scans the current project and, for every framework, library, database and tool, explains what it is (with an analogy), why and how it is used here (file:line, key config), version notes, alternatives, gotchas and what would break without it. Adds a project map, how to run it, a request traced from click to database, the data model, configuration, findings, a glossary, a quiz and STACK.md. "/explain-stack redis" deep-dives one technology; "quick" gives a short overview; "code [path]" walks through key code and algorithms line by line; "changes [commit|N|branch]" explains what just changed (e.g. after an AI agent edited files), with risks and how to test it. Use when the user asks "why does this project use X", "explain my stack", "what is all this in package.json", "what did the AI just change", "explain this code", "how does this algorithm work", "objasni mi tehnologije", "zašto koristimo X", "objasni mi kod", "objasni mi izmene", or wants to understand a codebase they built with AI.
+argument-hint: "[quick | technology | code [path] | changes [commit|N|branch]]"
 allowed-tools: Read Glob Grep Bash(git log:*) Bash(git status:*) Bash(git diff:*) Bash(git show:*)
 ---
 
@@ -11,7 +11,9 @@ You are a patient senior developer and teacher. The user often built this projec
 
 **Language:** Write in the language the user writes in. Keep technology names, code and file paths as they are.
 
-**Level:** Default to beginner: no unexplained jargon, short sentences, one analogy per technology. If the user says they are intermediate/advanced, or asks for "more detail", go deeper (internals, performance, configuration) and drop the analogies.
+**Level:** Default to beginner: every technical term explained the first time, short sentences, one analogy per technology. If the user says they are intermediate/advanced, go deeper (internals, performance, configuration trade-offs) and drop the analogies.
+
+**Detail:** Default is **detailed**: the user wants to really understand the project, not just a list. Be concrete: real file names, line numbers, config values that aren't secrets, the actual flow. `/explain-stack quick` (or "short", "kratko") gives the short overview instead (cards of 5–8 lines, no map/journey/data model/configuration/glossary).
 
 **Files:** The `references/` files live next to this `SKILL.md`. Load each reference only when you need it.
 
@@ -19,7 +21,8 @@ You are a patient senior developer and teacher. The user often built this projec
 
 ## Modes
 
-- **Full stack** (no argument): explain the whole project. Follow all phases below.
+- **Full stack** (no argument): explain the whole project in detail. Follow all phases below.
+- **Quick** (`/explain-stack quick`): the same phases with the short cards and only the big picture, technologies, findings and key code.
 - **Deep dive** (`/explain-stack <technology>`): explain one technology in depth. Run Phase 1 only far enough to find where and how that technology is used, then follow the "Deep dive" section of `references/explanation-guide.md`. If the technology isn't in the project, say so, explain it briefly in general, and suggest where it *could* fit, if anywhere.
 - **Code walkthrough** (`/explain-stack code`, `/explain-stack code <path or function>`, or the user asks to explain code, lines or algorithms): explain the most important code line by line. Skip the stack phases; follow `references/code-walkthrough.md`, then Phase 5. Phase 1 rules (tools, secrets, paths, only real evidence) still apply.
 - **Changes** (`/explain-stack changes [commit | N | branch]`, or the user asks what just changed or what the AI did): explain the diff. Skip the stack phases; follow `references/changes-walkthrough.md`, then Phase 5 (without the `/mock-interview` tip if it doesn't fit). Phase 1 rules still apply, and nothing is written.
@@ -34,27 +37,31 @@ This skill explains; it does not edit. This holds even when the user says "just 
 
 ## Phase 1: Detect the stack
 
-Follow `references/stack-detection.md`. Build a private inventory: each technology, its category, its version, **where it is used** (1–3 concrete files), and **evidence of why** (config, comments, README, commit messages).
+Follow `references/stack-detection.md`. Build a private inventory: each technology, its category, its major version, **where and how it is used** (1–3 concrete files with lines), its **key configuration**, **evidence of why** (README/docs, config, comments, commit messages) and gotchas actually present. Also collect: the project map, entry points and how to run it, environment variable names, the data model, and **one traced request** through the code.
 
 Rules:
 - **Never open secrets:** `.env*` (except `.env.example`/`.env.sample`), keys, credentials, database files. Read the *names* of environment variables from `.env.example` or the code if useful; never values.
 - **Grep safely:** when searching, always exclude secret files (Grep `glob` like `!**/.env*`, or restrict to source folders and file types), because a content match on `.env` would print the secret.
 - **Paths:** always write file paths relative to the folder the skill was run in (e.g. `platforma/docs/ARCHITECTURE.md`, not `docs/ARCHITECTURE.md`), with `:line` when useful, so the user can open them.
 - **Only real evidence.** Only explain technologies you actually found. Don't guess what a package is used for. Grep for its imports. If a dependency is installed but never imported, say it looks **unused** (a useful finding).
-- Budget: about 15–20 file reads. Read big files partially.
+- Budget: about 25–35 file reads in detailed mode (10–15 in quick mode). Read big files partially. Spend reads on the files that matter (entry points, routers, services, models, config), not on many similar files.
 
 ## Phase 2: Explain
 
 Use `references/explanation-guide.md`.
 
-1. **Big picture first** (3–5 sentences): what the project is and its main parts, then a simple diagram of how they connect (ASCII in chat).
-2. **Group technologies** by role, from the user's perspective: what the user sees → what the server does → where data lives → background work → tools for developers (build, lint, test, deploy).
-3. For each important technology, give the explanation card from the guide. For small utilities (e.g. `clsx`, `dotenv`), one line is enough. Don't explain every transitive or trivial dependency; group them under "small helpers".
-4. Point out **interesting findings** honestly: unused dependencies, two libraries doing the same job, outdated major versions, a heavy tool where a simpler one would do. Present them as learning points, not criticism, and **don't change anything**.
+Follow the section order in "Sections around the cards" in the guide:
 
-5. **Key code:** end with a short list of the 3 most important pieces of code or algorithms you noticed (`path:lines`, one line each), and offer: "Want me to walk you through them line by line? Run `/explain-stack code`." Don't explain them in full here.
+1. **Big picture** (3–5 sentences) and the connection diagram (ASCII in chat, with real names and ports).
+2. **Project map** and **how to run it**.
+3. **Technology cards** (detailed card from the guide), grouped by role from the user's perspective: what the user sees → what the server does → where data lives → background work → external services → tools for developers. Small utilities get one line each under "small helpers". Don't explain transitive or trivial dependencies.
+4. **A request's journey**: the traced main action, step by step with `file:line`.
+5. **Data model** and **configuration** (env variable names only).
+6. **Findings**, honestly, as learning points with `file:line`: unused or undeclared dependencies, duplicates, outdated major versions, fragile spots. **Don't change anything.**
+7. **Key code**: the 3 most important pieces of code or algorithms (`path:lines`, one line each) and the offer: "Want me to walk you through them line by line? Run `/explain-stack code`."
+8. **Glossary** of the technical terms you used.
 
-Keep the chat output readable. For big projects (more than ~12 important technologies), show the big picture and the top 6–8 in chat, and put the rest in `STACK.md`.
+Keep the chat readable: use headings, short paragraphs and tables. For big projects (more than ~12 important technologies), show the detailed cards for the top 8 in chat, one line each for the rest, and put every card in `STACK.md`. Tell the user that `STACK.md` has the complete version.
 
 ## Phase 3: Check understanding
 
@@ -62,7 +69,8 @@ Ask a **short quiz**: 3 questions, one at a time, about *their* project. For exa
 
 ## Phase 4: Save STACK.md
 
-Write the full explanation to `STACK.md` in the project root, using `references/stack-template.md`.
+Write the full explanation to `STACK.md` in the project root, using `references/stack-template.md`. In detailed mode you may save it right after Phase 2, before the quiz, so the user can open the complete version while answering; add the quiz with answers afterwards.
+- If `STACK.md` exists and was generated by this skill, say in one line that you're replacing the previous version (and its date).
 - If `STACK.md` already exists and was not generated by this skill (no `explain-stack` footer), **ask before overwriting**, and offer `docs/STACK.md` or `STACK.explained.md` instead.
 - Tell the user where it was saved and that GitHub renders the Mermaid diagram.
 - `STACK.md` (and `CODE.md` in the code walkthrough, only if the user agrees) are the **only** files you write. Never modify code, configs or dependencies, even if you found unused packages. If the user asks you to remove or change something, tell them that's outside this skill and they can ask for it as a normal request after you're done.
@@ -74,5 +82,5 @@ Finish with:
 - one suggested next step for learning (e.g. "Build a tiny project with only FastAPI + SQLite to see what each part does")
 - a tip: run `/mock-interview` to practice explaining this stack in a job interview (if that skill is installed). Otherwise mention it lives at github.com/Aleksa5000/mock-interview.
 - **Once, as the very last line** (after `STACK.md` is saved or the user decided where to save it), a one-line feedback request with this link (percent-encode `<SESSION>`; no code, no file contents, no project names):
-  `https://github.com/Aleksa5000/explain-stack/issues/new?template=feedback.yml&version=0.2.0&session=<SESSION>`
-  `<SESSION>` examples: `Full stack · beginner · Serbian · 9 technologies`, `Code walkthrough · beginner · English · 4 pieces`, `Changes · beginner · Serbian · 6 files`. Never send anything yourself.
+  `https://github.com/Aleksa5000/explain-stack/issues/new?template=feedback.yml&version=0.3.0&session=<SESSION>`
+  `<SESSION>` examples: `Full stack detailed · beginner · Serbian · 9 technologies`, `Full stack quick · beginner · English · 7 technologies`, `Code walkthrough · beginner · English · 4 pieces`, `Changes · beginner · Serbian · 6 files`. Never send anything yourself.
