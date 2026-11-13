@@ -1,0 +1,15 @@
+{
+  "name": "explain-stack",
+  "description": "Understand why your project uses each technology, as a Claude Code skill.",
+  "owner": {
+    "name": "Aleksa Djorovic",
+    "url": "https://github.com/Aleksa5000"
+  },
+  "plugins": [
+    {
+      "name": "explain-stack",
+      "source": "./",
+      "description": "Explains every technology in your project: what it is, why it's there, alternatives and trade-offs. Saves STACK.md."
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+name: Feedback
+description: "Tell us how the stack explanation went: what helped and what didn't."
+title: "[Feedback] "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve explain-stack! Please **don't paste your code or full answers**, a short description is enough.
+  - type: dropdown
+    id: rating
+    attributes:
+      label: Overall, how useful was the explanation?
+      options:
+        - "5 - Very useful"
+        - "4 - Useful"
+        - "3 - OK"
+        - "2 - Not very useful"
+        - "1 - Not useful"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Skill version
+      placeholder: "0.1.0"
+  - type: input
+    id: session
+    attributes:
+      label: Session
+      description: Mode (full stack or deep dive), level, language, number of technologies.
+      placeholder: "Full stack · beginner · English · 9 technologies"
+  - type: textarea
+    id: helpful
+    attributes:
+      label: What was most helpful?
+  - type: textarea
+    id: improve
+    attributes:
+      label: What should be better?
+      description: Wrong or invented facts about your project, too much jargon, too long/short, missing technologies, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: ideas
+    attributes:
+      label: Anything you wish it did?

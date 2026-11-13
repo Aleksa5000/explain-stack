@@ -1,0 +1,43 @@
+name: Bug report
+description: The skill did something wrong (wrong facts, changed files, missed technologies, broken STACK.md, etc.).
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did the skill do, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Ran /explain-stack in a Next.js project
+        2. Typed `skip` at the quiz
+        3. Opened STACK.md
+        4. ...
+  - type: input
+    id: version
+    attributes:
+      label: Skill version
+      placeholder: "0.1.0"
+  - type: dropdown
+    id: install
+    attributes:
+      label: How did you install it?
+      options:
+        - Plugin (/plugin install)
+        - Manual copy to ~/.claude/skills
+  - type: input
+    id: env
+    attributes:
+      label: Claude Code version and OS
+      placeholder: "2.1.x · Windows 11"
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else?
+      description: Please don't paste secrets or private code.

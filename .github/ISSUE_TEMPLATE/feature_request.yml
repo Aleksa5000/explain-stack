@@ -1,0 +1,21 @@
+name: Idea / feature request
+description: Suggest a new feature, language, ecosystem or explanation style.
+title: "[Idea] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What's your idea?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would it help?
+      description: Who would use it and when?
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: An example question, flow or output, if you have one.

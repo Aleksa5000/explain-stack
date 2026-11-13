@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="explain-stack logo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0EA5E9"/>
+      <stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" rx="225" fill="url(#bg)"/>
+  <!-- stack layers (bottom to top) -->
+  <path d="M188 640 L512 800 L836 640 L836 690 L512 850 L188 690 Z" fill="#fff" opacity="0.55"/>
+  <path d="M188 520 L512 680 L836 520 L836 570 L512 730 L188 570 Z" fill="#fff" opacity="0.78"/>
+  <path d="M512 240 L836 400 L512 560 L188 400 Z" fill="#fff"/>
+  <path d="M188 400 L512 560 L836 400 L836 450 L512 610 L188 450 Z" fill="#E0F2FE"/>
+  <!-- lightbulb badge -->
+  <circle cx="512" cy="400" r="104" fill="#FACC15"/>
+  <path d="M512 336 a52 52 0 0 1 30 94 l0 18 l-60 0 l0 -18 a52 52 0 0 1 30 -94 Z" fill="#fff"/>
+  <rect x="486" y="456" width="52" height="14" rx="7" fill="#fff"/>
+</svg>
