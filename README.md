@@ -33,6 +33,8 @@ Made for vibe coders, beginners and anyone joining an unfamiliar codebase.
 - ❓ **A 3-question quiz** about *your* project, to check that it clicked. You can skip it.
 - 📄 **Saves `STACK.md`**. If you already have one, it asks before overwriting.
 - 🎯 **Deep dive mode**: `/explain-stack redis` goes deep on one technology: how your code uses it, core concepts, common mistakes, interview questions and a 30-minute exercise. If the technology isn't in the project, it says so instead of inventing usage.
+- 🧩 **Code walkthrough mode**: `/explain-stack code` finds the 3–5 most important pieces of your code (core logic and algorithms like scheduling, ranking, retries or parsing) and explains them **line by line**: what each key line does and why, the algorithm's name, an example run with real values, its speed (Big-O) and edge cases, plus how to explain it in an interview. Point it at one file with `/explain-stack code src/scheduler.py`. It can save the walkthrough to `CODE.md`.
+- 🔎 **Changes mode**: `/explain-stack changes` explains what just changed in your code, perfect after an AI agent edited 10 files. It reads your uncommitted changes (or the last commit, the last N commits or a branch), groups them by feature, explains **what changed and why**, flags risks (removed validation, deleted tests, hard-coded secrets, destructive migrations) and leftovers (`console.log`, unused imports), and tells you **how to test it**. It never stages, commits or reverts anything.
 - 🌍 **Speaks your language**, at your level (beginner by default; say "I'm intermediate" for more depth).
 
 ## 📦 Install
@@ -64,16 +66,20 @@ Open Claude Code in your project folder and run:
 |---|---|
 | `/explain-stack` | The whole stack explained, findings, quiz, `STACK.md` |
 | `/explain-stack redis` | A deep dive on one technology |
+| `/explain-stack code` | The most important code and algorithms, line by line |
+| `/explain-stack code src/auth.ts` | One file or function, line by line |
+| `/explain-stack changes` | What just changed (uncommitted, or the last commit) and how to test it |
+| `/explain-stack changes 3` | The last 3 commits explained |
 
-When installed as a plugin, the full name is `/explain-stack:explain-stack`. You can also just ask *"why does this project use Redis?"* or *"explain my stack, I'm a beginner"*.
+When installed as a plugin, the full name is `/explain-stack:explain-stack`. You can also just ask *"why does this project use Redis?"*, *"explain how this algorithm works"*, *"what did the AI just change?"* or *"explain my stack, I'm a beginner"*.
 
 See a real output in [`examples/sample-STACK.md`](examples/sample-STACK.md), generated from a small Express + Zod + SQLite API.
 
 ## 🔒 Safe by design
 
-- **Read-only.** It scans your project with Read/Glob/Grep only. No shell commands, no installs, no builds.
-- **Never reads secrets.** It skips `.env*` files (except `.env.example`), keys, credentials and databases, and excludes them from searches. We tested this with a planted fake secret.
-- **Never changes your code.** `STACK.md` is the only file it writes. If you ask it to remove an unused package, it tells you to ask for that separately after it's done.
+- **Read-only.** It scans your project with Read/Glob/Grep and read-only `git log/status/diff/show`. No other shell commands, no installs, no builds, never `git add/commit/reset`.
+- **Never reads secrets.** It skips `.env*` files (except `.env.example`), keys, credentials and databases, and excludes them from searches and diffs. We tested this with a planted fake secret.
+- **Never changes your code.** `STACK.md` (and `CODE.md`, if you agree) are the only files it writes. If you ask it to fix something (e.g. remove an unused package or revert a change), it first finishes the explanation, lists exactly what it would change and waits for your explicit yes.
 
 ## 💬 Feedback
 

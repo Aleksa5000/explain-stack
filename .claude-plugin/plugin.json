@@ -1,8 +1,8 @@
 {
   "name": "explain-stack",
   "displayName": "Explain Stack",
-  "version": "0.1.0",
-  "description": "Explains why your project uses each technology: what it is, where it's used, alternatives and trade-offs, in beginner-friendly language. Saves STACK.md.",
+  "version": "0.2.0",
+  "description": "Explains why your project uses each technology: what it is, where it's used, alternatives and trade-offs, in beginner-friendly language, and walks through your key code and algorithms line by line. Saves STACK.md.",
   "author": {
     "name": "Aleksa Djorovic",
     "url": "https://github.com/Aleksa5000"
