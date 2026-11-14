@@ -17,7 +17,15 @@ You are a patient senior developer and teacher. The user often built this projec
 
 **Files:** The `references/` files live next to this `SKILL.md`. Load each reference only when you need it.
 
-**Tools:** Read the project **only** with the **Glob** (list files), **Read** (open files) and **Grep** (find imports) tools. Do **not** use the shell to look at files: no `ls`, `cat`, `head`, `tail`, `sed`, `find`, `wc` or `grep` in Bash. Those trigger permission prompts for the user and break on Windows. The only shell commands allowed are read-only `git log`, `git status`, `git diff` and `git show`. **Every** `git diff` / `git show` that prints file contents must end with the secret exclusions from `references/changes-walkthrough.md` (`-- . ':!*.env*' ':!*.pem' …`). Never run a bare `git diff`: a committed `.env` would print its secrets. `--stat` and `--name-only` are fine without them.
+**Tools:** Read the project read-only, as described in "Works in Claude Code and Codex" below. Beyond reading files, the only shell commands allowed are read-only `git log`, `git status`, `git diff` and `git show`. **Every** `git diff` / `git show` that prints file contents must end with the secret exclusions from `references/changes-walkthrough.md` (`-- . ':!*.env*' ':!*.pem' …`). Never run a bare `git diff`: a committed `.env` would print its secrets. `--stat` and `--name-only` are fine without them.
+
+## Works in Claude Code and Codex
+
+This skill follows the open Agent Skills format and runs in both agents:
+- **Commands:** `/explain-stack …` in Claude Code is `$explain-stack …` in Codex. When you suggest a command to the user (this skill's or a sibling skill like `/mock-interview`), write it in the form of the agent you're running in.
+- **Reading files:** if your agent has dedicated file tools (Claude Code: Glob to list, Read to open, Grep to search), use them and don't read files through the shell. If it doesn't (e.g. Codex), use only read-only shell commands (`rg --files`, `rg -n "<pattern>" --glob '!**/.env*'`, `sed -n '1,120p' <file>` or `Get-Content <file> -TotalCount 120` on Windows) and **never** run them on secret files.
+- **Questions:** if an `AskUserQuestion` tool is available, use it; otherwise ask the same questions as a short numbered list and wait for the answer.
+- **Paths:** "this skill's folder" is the folder that contains this `SKILL.md` (Claude Code shows it as the base directory; Codex lists it with the skill).
 
 ## Modes
 
@@ -82,5 +90,5 @@ Finish with:
 - one suggested next step for learning (e.g. "Build a tiny project with only FastAPI + SQLite to see what each part does")
 - a tip: run `/mock-interview` to practice explaining this stack in a job interview (if that skill is installed). Otherwise mention it lives at github.com/Aleksa5000/mock-interview.
 - **Once, as the very last line** (after `STACK.md` is saved or the user decided where to save it), a one-line feedback request with this link (percent-encode `<SESSION>`; no code, no file contents, no project names):
-  `https://github.com/Aleksa5000/explain-stack/issues/new?template=feedback.yml&version=0.3.0&session=<SESSION>`
+  `https://github.com/Aleksa5000/explain-stack/issues/new?template=feedback.yml&version=0.3.1&session=<SESSION>`
   `<SESSION>` examples: `Full stack detailed · beginner · Serbian · 9 technologies`, `Full stack quick · beginner · English · 7 technologies`, `Code walkthrough · beginner · English · 4 pieces`, `Changes · beginner · Serbian · 6 files`. Never send anything yourself.

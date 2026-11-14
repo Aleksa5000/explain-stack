@@ -64,6 +64,13 @@ Copy-Item -Recurse explain-stack\skills\explain-stack $HOME\.claude\skills\
 
 Restart Claude Code after installing.
 
+**Option C: Codex** (it reads the same `SKILL.md` format)
+```
+codex plugin marketplace add Aleksa5000/explain-stack
+codex plugin add explain-stack@explain-stack
+```
+Or copy the folder: `cp -r explain-stack/skills/explain-stack ~/.agents/skills/`. In Codex, run it with `$explain-stack` instead of `/explain-stack`.
+
 ## 🚀 Usage
 
 Open Claude Code in your project folder and run:

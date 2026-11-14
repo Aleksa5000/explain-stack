@@ -23,7 +23,7 @@ If the folder is not a git repo, say that this mode needs git, explain in two li
   Separately, `git diff HEAD --stat` (or `git show --stat`) shows file names only. If a secret-like file changed, mention its **name** only ("`.env` changed. I didn't open it.").
 - **Overview first:** run `--stat` to see the size. Skip lock files, generated files, build output and snapshots (mention them in one line: "`pnpm-lock.yaml` updated because a package was added").
 - **Big diffs** (more than ~600 changed lines or 15 files): explain the 5–8 most important files in detail and list the rest in one line each. Diff file by file (`git diff HEAD -- <path>`), not all at once.
-- **New untracked files** (from `git status`): read them with **Read** (never secret files).
+- **New untracked files** (from `git status`): read them with the agent's file reading (never secret files).
 - If you need context around a change, Read that part of the current file.
 - If a diff line *looks like* a secret (API key, token, password), don't quote it. Say "line 12 of `config.ts` looks like a hard-coded secret" and treat it as the top risk.
 

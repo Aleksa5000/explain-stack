@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1 — 2026-11-14
+- Works in **Codex** too: agent-neutral instructions (file tools in Claude Code, read-only shell with `.env` excluded in Codex), `$skill` commands in Codex, numbered-list questions when there's no question tool. Install steps for Codex in the README.
+
 ## 0.3.0 — 2026-11-14
 - Much more detailed analysis (about 25–35 files) and explanations: every technology card now covers how it works in your code step by step (file:line), key config, version notes, gotchas, where to start reading and official docs.
 - New sections: project map, how to run it, a request's journey (one real action traced from click to database), data model, configuration (env variable names only) and a glossary. STACK.md gets a table of contents.

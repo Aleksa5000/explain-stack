@@ -4,7 +4,7 @@ Goal: build a complete, accurate and **detailed** picture of the project, with e
 
 ## 1. Project shape and map
 
-- List the root and the main source folders (Glob, 2 levels deep). Note monorepo signs (`apps/`, `packages/`, `services/`, `pnpm-workspace.yaml`, `turbo.json`, `nx.json`) and separate parts (`frontend/`, `backend/`, `web/`, `api/`, `mobile/`, `desktop/`).
+- List the root and the main source folders (2 levels deep). Note monorepo signs (`apps/`, `packages/`, `services/`, `pnpm-workspace.yaml`, `turbo.json`, `nx.json`) and separate parts (`frontend/`, `backend/`, `web/`, `api/`, `mobile/`, `desktop/`).
 - Build a **project map**: each important folder with what it contains in one line ("`backend/app/routers/`: one file per group of API endpoints"). Skip noise folders.
 - Read `README*`, and if present `docs/`, `ARCHITECTURE*`, `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING*`: the intended purpose and the **stated reasons** for choices. Quote them when you explain "why".
 - Skip: `node_modules/`, `.venv/`, `venv/`, `dist/`, `build/`, `.next/`, `__pycache__/`, `vendor/`, `target/`, binaries, datasets, images, office files, backups.
