@@ -1,0 +1,17 @@
+{
+  "description": "explain-stack: keep STACK.md up to date in every session of a project where you saved one. Turn off with the skill's 'watch off'.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/skills/explain-stack/scripts/watch.mjs\" hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

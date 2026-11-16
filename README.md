@@ -42,6 +42,7 @@ Made for vibe coders, beginners and anyone joining an unfamiliar codebase.
 - 🧩 **Code walkthrough mode**: `/explain-stack code` finds the 3–5 most important pieces of your code (core logic and algorithms like scheduling, ranking, retries or parsing) and explains them **line by line**: what each key line does and why, the algorithm's name, an example run with real values, its speed (Big-O) and edge cases, plus how to explain it in an interview. Point it at one file with `/explain-stack code src/scheduler.py`. It can save the walkthrough to `CODE.md`.
 - 🔎 **Changes mode**: `/explain-stack changes` explains what just changed in your code, perfect after an AI agent edited 10 files. It reads your uncommitted changes (or the last commit, the last N commits or a branch), groups them by feature, explains **what changed and why**, flags risks (removed validation, deleted tests, hard-coded secrets, destructive migrations) and leftovers (`console.log`, unused imports), and tells you **how to test it**. It never stages, commits or reverts anything.
 - 🌍 **Speaks your language**, at your level (beginner by default; say "I'm intermediate" for more depth).
+- 🔁 **Keeps `STACK.md` up to date by itself.** After the first `STACK.md` in a project, every later session there checks what changed and refreshes only the affected parts, after doing what you asked. Turn it off with `/explain-stack watch off`.
 
 ## 📦 Install
 

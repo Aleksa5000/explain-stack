@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.5.0 — 2026-11-16
+- **Stays with your project:** after the first `STACK.md` in a project, every later session there keeps it up to date. If the code changed, the agent first does what you asked, then refreshes only the affected parts of `STACK.md` and tells you in one line; when the stack changes during a session, it updates it too. New `/explain-stack refresh`; turn it off with `/explain-stack watch off`.
+
 ## 0.4.0 — 2026-11-16
 - **Never shows outdated facts:** always analyzes the current code, re-reads files right before quoting them, and when a `STACK.md` exists, starts with what changed since it (commits, new or removed technologies). The `STACK.md` footer now records the commit it was based on.
 
