@@ -40,7 +40,7 @@ If the project has no real algorithm (a plain CRUD app), say so honestly. Then e
 ```
 
 Rules:
-- **Quote real code exactly**, with correct line numbers from the file. Never paraphrase code as if it were a quote.
+- **Quote real code exactly**, with correct line numbers from the file **as it is now**: re-read it right before quoting, never from memory or an old `CODE.md`. Never paraphrase code as if it were a quote.
 - **Explain the *why*, not only the *what*.** "`L14` sorts by due date *so that* the most overdue card is shown first" beats "`L14` sorts the list".
 - **Trace with real values.** A worked example teaches more than any description. Use small, concrete inputs (e.g. `ease=2.5, interval=6 → next interval 15 days`).
 - **Name the concept** a beginner should google ("this is called *memoization*"), and explain it in one sentence.

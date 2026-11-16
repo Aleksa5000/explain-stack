@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.4.0 — 2026-11-16
+- **Never shows outdated facts:** always analyzes the current code, re-reads files right before quoting them, and when a `STACK.md` exists, starts with what changed since it (commits, new or removed technologies). The `STACK.md` footer now records the commit it was based on.
+
 ## 0.3.1 — 2026-11-14
 - Works in **Codex** too: agent-neutral instructions (file tools in Claude Code, read-only shell with `.env` excluded in Codex), `$skill` commands in Codex, numbered-list questions when there's no question tool. Install steps for Codex in the README.
 

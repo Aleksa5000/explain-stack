@@ -2,7 +2,7 @@
 name: explain-stack
 description: Explain in detail WHY a project uses each technology, for beginners and vibe coders. Scans the current project and, for every framework, library, database and tool, explains what it is (with an analogy), why and how it is used here (file:line, key config), version notes, alternatives, gotchas and what would break without it. Adds a project map, how to run it, a request traced from click to database, the data model, configuration, findings, a glossary, a quiz and STACK.md. "/explain-stack redis" deep-dives one technology; "quick" gives a short overview; "code [path]" walks through key code and algorithms line by line; "changes [commit|N|branch]" explains what just changed (e.g. after an AI agent edited files), with risks and how to test it. Use when the user asks "why does this project use X", "explain my stack", "what is all this in package.json", "what did the AI just change", "explain this code", "how does this algorithm work", "objasni mi tehnologije", "zašto koristimo X", "objasni mi kod", "objasni mi izmene", or wants to understand a codebase they built with AI.
 argument-hint: "[quick | technology | code [path] | changes [commit|N|branch]]"
-allowed-tools: Read Glob Grep Bash(git log:*) Bash(git status:*) Bash(git diff:*) Bash(git show:*)
+allowed-tools: Read Glob Grep Bash(git log:*) Bash(git status:*) Bash(git diff:*) Bash(git show:*) Bash(git rev-parse:*)
 ---
 
 # Explain Stack
@@ -35,6 +35,14 @@ This skill follows the open Agent Skills format and runs in both agents:
 - **Code walkthrough** (`/explain-stack code`, `/explain-stack code <path or function>`, or the user asks to explain code, lines or algorithms): explain the most important code line by line. Skip the stack phases; follow `references/code-walkthrough.md`, then Phase 5. Phase 1 rules (tools, secrets, paths, only real evidence) still apply.
 - **Changes** (`/explain-stack changes [commit | N | branch]`, or the user asks what just changed or what the AI did): explain the diff. Skip the stack phases; follow `references/changes-walkthrough.md`, then Phase 5 (without the `/mock-interview` tip if it doesn't fit). Phase 1 rules still apply, and nothing is written.
 - **No project** (empty folder, home directory): ask which project or stack they want explained, or offer to explain a technology in general.
+
+## Always explain the current code
+
+Code changes all the time, often by other sessions or agents while you work. Never present something outdated:
+- **Analyze the code as it is now**, every run. An existing `STACK.md` or `CODE.md`, or what you read earlier in this conversation, is a hint, never the source: re-check every fact you take from it.
+- **Re-read a file right before you quote it** (lines, config, versions), and re-read again if `git status` or the user says it changed since.
+- **Know what changed since the last `STACK.md`.** Its footer says what it was based on (commit and date). If it exists: with git, run `git rev-parse --short HEAD`, `git log --oneline <old commit>..HEAD`, `git diff --stat <old commit> -- . ':!*.env*' ':!*.pem' ':!*.key' ':!*secret*' ':!*credentials*' ':!*.db' ':!*.sqlite'` and `git status --short`; without git, compare by looking at what you find now. Start your answer with a short **"What changed since the last STACK.md (<date>)"**: new or removed technologies, new features or parts, changed config. Then give the full explanation of the current state and update `STACK.md`.
+- In a long session, before answering a follow-up about code, check `git status --short` (if it's a git repo); if files changed since you read them, re-read them first.
 
 ## Never change the project
 
@@ -90,5 +98,5 @@ Finish with:
 - one suggested next step for learning (e.g. "Build a tiny project with only FastAPI + SQLite to see what each part does")
 - a tip: run `/mock-interview` to practice explaining this stack in a job interview (if that skill is installed). Otherwise mention it lives at github.com/Aleksa5000/mock-interview.
 - **Once, as the very last line** (after `STACK.md` is saved or the user decided where to save it), a one-line feedback request with this link (percent-encode `<SESSION>`; no code, no file contents, no project names):
-  `https://github.com/Aleksa5000/explain-stack/issues/new?template=feedback.yml&version=0.3.1&session=<SESSION>`
+  `https://github.com/Aleksa5000/explain-stack/issues/new?template=feedback.yml&version=0.4.0&session=<SESSION>`
   `<SESSION>` examples: `Full stack detailed · beginner · Serbian · 9 technologies`, `Full stack quick · beginner · English · 7 technologies`, `Code walkthrough · beginner · English · 4 pieces`, `Changes · beginner · Serbian · 6 files`. Never send anything yourself.
