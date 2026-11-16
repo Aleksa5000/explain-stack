@@ -71,6 +71,24 @@ codex plugin add explain-stack@explain-stack
 ```
 Or copy the folder: `cp -r explain-stack/skills/explain-stack ~/.agents/skills/`. In Codex, run it with `$explain-stack` instead of `/explain-stack`.
 
+## 🔄 Stay up to date
+
+New versions come out often. Turn on automatic updates once, and you'll always have the latest:
+
+**Claude Code** (third-party plugins don't auto-update by default):
+- In Claude Code: `/plugin` → **Marketplaces** → **explain-stack** → **Enable auto-update**
+- Or add `"autoUpdate": true` to the marketplace in `~/.claude/settings.json`:
+  ```json
+  "extraKnownMarketplaces": {
+    "explain-stack": { "source": { "source": "github", "repo": "Aleksa5000/explain-stack" }, "autoUpdate": true }
+  }
+  ```
+Claude Code then checks for updates in the background and installs them; run `/reload-plugins` or restart to use the new version. To update right away: `claude plugin marketplace update explain-stack` and `claude plugin update explain-stack@explain-stack`.
+
+**Codex** (no automatic plugin updates yet): `codex plugin marketplace upgrade explain-stack`
+
+**Manual copy:** `git pull` in your clone and copy `skills/explain-stack` again.
+
 ## 🚀 Usage
 
 Open Claude Code in your project folder and run:
